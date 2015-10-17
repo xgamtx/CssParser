@@ -1,0 +1,10 @@
+<phpunit bootstrap="./bootstrap.php"
+         colors="false"
+         convertErrorsToExceptions="false"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false"
+         stopOnFailure="false">
+    <logging>
+        <log type="coverage-clover" target="/tmp/coverage.xml"/>
+    </logging>
+</phpunit>
