@@ -14,7 +14,7 @@ class Html {
     /** @var DOMXPath */
     protected $htmlPage;
     /** @var string */
-    protected $encoding = 'cp1251';
+    protected $encoding = 'UTF-8';
 
     public function __construct($htmlCode) {
         // create new DOMDocument
@@ -25,7 +25,6 @@ class Html {
 
         // load HTML
         $document->loadHTML($htmlCode);
-        $z = $document->saveXML();
 
         // Restore error level
         libxml_use_internal_errors($internalErrors);
@@ -34,14 +33,32 @@ class Html {
         $this->htmlPage = new \DOMXPath($document);
     }
 
+    /**
+     * @return string
+     */
     protected function getEncoding() {
         return $this->encoding;
     }
 
+    /**
+     * @param string $xpath
+     * @return bool
+     */
     public function isUsedStyle($xpath) {
-        $z1 = $this->htmlPage->document->saveXML();
-        $zz = $this->htmlPage->query($xpath);
-        $z1 = 1;
-        return $this->htmlPage->query($xpath);//->length !== 0;
+        return $this->htmlPage->query($xpath)->length !== 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getStyleFileNameList() {
+        $xpath = '//link[@type and contains(concat(\' \', normalize-space(@type), \' \'), \' text/css \')]';
+        $fileList = $this->htmlPage->query($xpath);
+        $fileNameList = [];
+        /** @var \DOMElement $file */
+        foreach ($fileList as $file) {
+            $fileNameList[] = $file->getAttribute('href');
+        }
+        return $fileNameList;
     }
 }

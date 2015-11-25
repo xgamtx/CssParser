@@ -2,8 +2,6 @@
 
 function autoload($className)
 {
-    define('APP_ROOT', dirname(__FILE__));
-
     $className = ltrim($className, '\\');
     $fileName  = APP_ROOT . '/code' . DIRECTORY_SEPARATOR;
     if ($lastNsPos = strrpos($className, '\\')) {

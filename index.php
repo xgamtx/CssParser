@@ -6,20 +6,17 @@
  * Time: 15:10
  */
 
+define('APP_ROOT', dirname(__FILE__));
+
 require 'FatalErrorHandler.php';
 require_once 'AutoLoad.php';
 
 $htmlContent = file_get_contents('test.html');
 $html = new \Model\Html($htmlContent);
+$fileList = $html->getStyleFileNameList();
 $cssCollection = new \Model\CssCollection();
 $cssCollection->appendFromFile('main.css');
-$cssCollection->dump();
-$zz = $html->isUsedStyle("*[@class]");
-$z2 = $zz->item(0);
-$z1 = 1;
-//$html->isUsedStyle("*[@class and contains(concat(' ', normalize-space(@class), ' '), ' page ')]");
-//foreach ($cssCollection as $ind => $cssStyle) {
-//    echo $ind . ($html->isUsedStyle($cssStyle->getXpath()) ? " 1<br>" : ' 0<br>');
-//}
 
-//echo phpinfo();
+foreach ($cssCollection as $ind => $cssStyle) {
+    echo $ind . $cssStyle->getXpath() . ' --' . ($html->isUsedStyle($cssStyle->getXpath()) ? " 1\r\n" : " 0\r\n");
+}

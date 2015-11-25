@@ -57,7 +57,10 @@ class CssElement {
         throw new \InvalidArgumentException('Required parameter not exist: "' . $name . '"');
     }
 
+    /**
+     * @return string
+     */
     public function getXpath() {
-        return CssSelector::toXPath($this->filter, '');
+        return CssSelector::toXPath($this->filter, '//');
     }
 }
